@@ -1,10 +1,9 @@
 import React from 'react';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { act } from 'react-dom/test-utils';
 import renderWithRouter from '../renderWithRouter';
 import App from '../App';
-
-import pokemonList from '../data';
 
 describe('Testa o componente <Pokedex.js />', () => {
   it('Testa se a página contém um heading h2 com o texto Encountered Pokémon', () => {
@@ -63,7 +62,8 @@ describe('Testa o componente <Pokedex.js />', () => {
     renderWithRouter(<App />);
 
     const buttonsType = screen.getAllByTestId('pokemon-type-button');
-    const buttonAll = screen.getByText('All');
+    const buttonAll = screen.getByRole('button', { name: 'All' });
+    console.log(buttonAll);
 
     expect(buttonAll).toBeInTheDocument();
 
@@ -118,24 +118,31 @@ describe('Testa o componente <Pokedex.js />', () => {
   it('Testa se o botão All está sempre visível', () => {
     renderWithRouter(<App />);
 
-    const buttonAll = screen.getByText('All');
+    const buttonAll = screen.getByRole('button', { name: 'All' });
     expect(buttonAll).toBeVisible();
   });
 
-  it('Testa se a pokédex contém um botão para resetal o filtro', () => {
-    renderWithRouter(<App />);
-    const buttonAll = screen.getByText('All');
+  it('Testa se a pokédex contém um botão para resetar o filtro', () => {
+    const { history } = renderWithRouter(<App />);
+    const buttonAll = screen.getByRole('button', { name: 'All' });
     expect(buttonAll).toBeInTheDocument();
-
-    userEvent.click(buttonAll);
 
     const nextBtn = screen.getByRole('button', { name: /Próximo pokémon/i });
     expect(nextBtn).toBeInTheDocument();
 
-    pokemonList.forEach((pokemon) => {
-      const pok = screen.getByText(pokemon.name);
-      expect(pok).toBeInTheDocument();
-      userEvent.click(nextBtn);
+    const psychicBtn = screen.getByRole('button', { name: 'Psychic' });
+    userEvent.click(psychicBtn);
+
+    userEvent.click(buttonAll);
+
+    const firstPokemon = screen.getByText('Pikachu');
+    expect(firstPokemon).toBeInTheDocument();
+
+    act(() => {
+      history.push('/');
     });
+
+    const allBtn = screen.getByRole('button', { name: 'All' });
+    expect(allBtn).toBeInTheDocument();
   });
 });
