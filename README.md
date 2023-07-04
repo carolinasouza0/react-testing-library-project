@@ -40,4 +40,4 @@ Neste projeto eu fiz diversos testes em RTL (React Testing Library) para testar 
 ---
 
 ### Créditos e Avisos Legais
-- As pastas e os arquivos: ./src/componentes ./src/services ./src/types ./src/App.js ./src/data.js ./src/setupTests.js ./src/App.css ./src/index.css ./src/index.js  foram criadas pela [Trybe](https://www.betrybe.com/), portanto são de direito da mesma.
+- As pastas e os arquivos: ./src/componentes ./src/services ./src/types ./src/App.js ./src/data.js ./src/setupTests.js ./src/App.css ./src/index.css ./src/index.js ./stryker foram criadas pela [Trybe](https://www.betrybe.com/), portanto são de direito da mesma.
